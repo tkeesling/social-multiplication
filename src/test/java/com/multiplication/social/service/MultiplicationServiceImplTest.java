@@ -27,21 +27,6 @@ public class MultiplicationServiceImplTest {
     }
 
     @Test
-    @Ignore
-    public void createRandomMultiplicationTest() {
-        // given (our mocked Random Generator service will return first 50, then 30)
-        given(randomGeneratorService.generateRandomFactor()).willReturn(50, 30);
-
-        // when
-        Multiplication multiplication = multiplicationServiceImpl.createRandomMultiplication();
-
-        // then
-        assertThat(multiplication.getFactorA()).isEqualTo(50);
-        assertThat(multiplication.getFactorB()).isEqualTo(30);
-//        assertThat(multiplication.getResult()).isEqualTo(1500);
-    }
-
-    @Test
     public void checkCorrectAttemptTest() {
         // given
         Multiplication multiplication = new Multiplication(50, 60);
