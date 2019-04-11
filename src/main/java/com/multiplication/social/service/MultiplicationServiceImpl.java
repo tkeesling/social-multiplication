@@ -11,7 +11,7 @@ public class MultiplicationServiceImpl implements MultiplicationService {
     @Autowired
     private RandomGeneratorService randomGeneratorService;
 
-    public MultiplicationServiceImpl(RandomGeneratorService randomGeneratorService) {
+    MultiplicationServiceImpl(RandomGeneratorService randomGeneratorService) {
         this.randomGeneratorService = randomGeneratorService;
     }
 
