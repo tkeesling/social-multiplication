@@ -17,10 +17,12 @@ public final class MultiplicationResultAttempt {
     private final User user;
     private final Multiplication multiplication;
     private final int resultAttempt;
+    private final boolean correct;
 
     MultiplicationResultAttempt() {
         this.user = null;
         this.multiplication = null;
-        resultAttempt = -1;
+        this.resultAttempt = -1;
+        this.correct = false;
     }
 }

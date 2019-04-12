@@ -5,7 +5,6 @@ import com.multiplication.social.domain.Multiplication;
 import com.multiplication.social.domain.MultiplicationResultAttempt;
 import com.multiplication.social.domain.User;
 import com.multiplication.social.service.MultiplicationService;
-import com.multiplication.social.ws.MultiplicationResultAttemptController.ResultResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +34,6 @@ public class MultiplicationResultAttemptControllerTest {
     private MockMvc mvc;
 
     private JacksonTester<MultiplicationResultAttempt> jsonResult;
-    private JacksonTester<ResultResponse> jsonResponse;
 
     @Before
     public void setUp() throws Exception {
@@ -57,7 +55,7 @@ public class MultiplicationResultAttemptControllerTest {
         given(multiplicationService.checkAttempt(any(MultiplicationResultAttempt.class))).willReturn(correct);
         User user = new User("Tyler");
         Multiplication multiplication = new Multiplication(50, 70);
-        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3500);
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3500, correct);
 
         // when
         MockHttpServletResponse response = mvc.perform(
@@ -69,6 +67,13 @@ public class MultiplicationResultAttemptControllerTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonResponse.write(new ResultResponse(correct)).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(
+                jsonResult.write(
+                        new MultiplicationResultAttempt(
+                                attempt.getUser(),
+                                attempt.getMultiplication(),
+                                attempt.getResultAttempt(),
+                                correct))
+                        .getJson());
     }
 }

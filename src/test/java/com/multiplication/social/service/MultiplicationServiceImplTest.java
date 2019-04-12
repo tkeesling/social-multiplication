@@ -4,13 +4,11 @@ import com.multiplication.social.domain.Multiplication;
 import com.multiplication.social.domain.MultiplicationResultAttempt;
 import com.multiplication.social.domain.User;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 public class MultiplicationServiceImplTest {
 
@@ -31,11 +29,12 @@ public class MultiplicationServiceImplTest {
         // given
         Multiplication multiplication = new Multiplication(50, 60);
         User user = new User("tyler_keesling");
-        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3000);
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3000, false);
 
         // when
         boolean attemptResult = multiplicationServiceImpl.checkAttempt(attempt);
 
+        // then
         assertThat(attemptResult).isTrue();
     }
 
@@ -44,11 +43,12 @@ public class MultiplicationServiceImplTest {
         // given
         Multiplication multiplication = new Multiplication(50, 60);
         User user = new User("tyler_keesling");
-        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3001);
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3001, false);
 
         // when
         boolean attemptResult = multiplicationServiceImpl.checkAttempt(attempt);
 
+        // then
         assertThat(attemptResult).isFalse();
 
     }

@@ -2,9 +2,6 @@ package com.multiplication.social.ws;
 
 import com.multiplication.social.domain.MultiplicationResultAttempt;
 import com.multiplication.social.service.MultiplicationService;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,16 +21,16 @@ final class MultiplicationResultAttemptController {
     }
 
     @PostMapping
-    ResponseEntity<ResultResponse> postResult(@RequestBody MultiplicationResultAttempt multiplicationResultAttempt) {
+    ResponseEntity<MultiplicationResultAttempt> postResult(@RequestBody MultiplicationResultAttempt attempt) {
 
-        return ResponseEntity.ok(new ResultResponse(multiplicationService.checkAttempt(multiplicationResultAttempt)));
-    }
+        boolean isCorrect = multiplicationService.checkAttempt(attempt);
+        MultiplicationResultAttempt attemptCopy = new MultiplicationResultAttempt(
+                attempt.getUser(),
+                attempt.getMultiplication(),
+                attempt.getResultAttempt(),
+                isCorrect
+        );
 
-    @RequiredArgsConstructor
-    @NoArgsConstructor(force = true)
-    @Getter
-    public static final class ResultResponse {
-
-        private final boolean correct;
+        return ResponseEntity.ok(attemptCopy);
     }
 }

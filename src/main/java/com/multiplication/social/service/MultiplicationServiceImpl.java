@@ -4,6 +4,7 @@ import com.multiplication.social.domain.Multiplication;
 import com.multiplication.social.domain.MultiplicationResultAttempt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class MultiplicationServiceImpl implements MultiplicationService {
@@ -23,8 +24,14 @@ public class MultiplicationServiceImpl implements MultiplicationService {
     }
 
     @Override
-    public boolean checkAttempt(MultiplicationResultAttempt resultAttempt) {
-        return resultAttempt.getResultAttempt() ==
-                resultAttempt.getMultiplication().getFactorA() * resultAttempt.getMultiplication().getFactorB();
+    public boolean checkAttempt(MultiplicationResultAttempt attempt) {
+        boolean correct = attempt.getResultAttempt() ==
+                attempt.getMultiplication().getFactorA() * attempt.getMultiplication().getFactorB();
+
+        Assert.isTrue(!attempt.isCorrect(), "Can't do this!");
+
+        MultiplicationResultAttempt checkedAttempt = new MultiplicationResultAttempt(attempt.getUser(), attempt.getMultiplication(), attempt.getResultAttempt(), correct);
+
+        return correct;
     }
 }
