@@ -11,6 +11,7 @@ public class SocialMultiplicationApplicationTests {
 
     @Test
     public void contextLoads() {
+
     }
 
 }
