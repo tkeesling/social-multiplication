@@ -20,7 +20,7 @@ final class MultiplicationResultAttemptController {
     @Autowired
     private final MultiplicationService multiplicationService;
 
-    public MultiplicationResultAttemptController(MultiplicationService multiplicationService) {
+    public MultiplicationResultAttemptController(final MultiplicationService multiplicationService) {
         this.multiplicationService = multiplicationService;
     }
 
