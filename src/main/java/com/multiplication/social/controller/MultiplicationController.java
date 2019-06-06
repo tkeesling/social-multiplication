@@ -1,4 +1,4 @@
-package com.multiplication.social.ws;
+package com.multiplication.social.controller;
 
 import com.multiplication.social.domain.Multiplication;
 import com.multiplication.social.service.MultiplicationService;

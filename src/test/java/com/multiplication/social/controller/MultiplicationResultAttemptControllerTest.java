@@ -1,4 +1,4 @@
-package com.multiplication.social.ws;
+package com.multiplication.social.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.multiplication.social.domain.Multiplication;
