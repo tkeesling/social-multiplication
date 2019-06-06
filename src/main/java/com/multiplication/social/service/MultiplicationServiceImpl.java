@@ -3,6 +3,8 @@ package com.multiplication.social.service;
 import com.multiplication.social.domain.Multiplication;
 import com.multiplication.social.domain.MultiplicationResultAttempt;
 import com.multiplication.social.domain.User;
+import com.multiplication.social.event.EventDispatcher;
+import com.multiplication.social.event.MultiplicationSolvedEvent;
 import com.multiplication.social.repository.MultiplicationResultAttemptRepository;
 import com.multiplication.social.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,17 @@ public class MultiplicationServiceImpl implements MultiplicationService {
     private RandomGeneratorService randomGeneratorService;
     private MultiplicationResultAttemptRepository attemptRepository;
     private UserRepository userRepository;
+    private EventDispatcher eventDispatcher;
 
     @Autowired
     public MultiplicationServiceImpl(final RandomGeneratorService randomGeneratorService,
                                      final MultiplicationResultAttemptRepository attemptRepository,
-                                     final UserRepository userRepository) {
+                                     final UserRepository userRepository,
+                                     final EventDispatcher eventDispatcher) {
         this.randomGeneratorService = randomGeneratorService;
         this.attemptRepository = attemptRepository;
         this.userRepository = userRepository;
+        this.eventDispatcher = eventDispatcher;
     }
 
     @Override
@@ -52,6 +57,16 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 
         // Store the attempt
         attemptRepository.save(checkedAttempt);
+
+        // Dispatch the event
+        eventDispatcher.send(
+                new MultiplicationSolvedEvent(
+                        checkedAttempt.getId(),
+                        checkedAttempt.getUser().getId(),
+                        checkedAttempt.isCorrect()
+                )
+        );
+
 
         return isCorrect;
     }
