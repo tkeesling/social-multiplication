@@ -43,7 +43,7 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 
     @Transactional
     @Override
-    public boolean checkAttempt(MultiplicationResultAttempt attempt) {
+    public boolean checkAttempt(final MultiplicationResultAttempt attempt) {
         // Check if the user already exists
         Optional<User> user = userRepository.findByAlias(attempt.getUser().getAlias());
 
@@ -72,7 +72,19 @@ public class MultiplicationServiceImpl implements MultiplicationService {
     }
 
     @Override
-    public List<MultiplicationResultAttempt> getStatsForUser(String userAlias) {
+    public List<MultiplicationResultAttempt> getStatsForUser(final String userAlias) {
         return attemptRepository.findTop5ByUserAliasOrderByIdDesc(userAlias);
+    }
+
+    @Override
+    public MultiplicationResultAttempt getResultById(final Long resultId) {
+        final Optional<MultiplicationResultAttempt> attemptOpt = attemptRepository.findById(resultId);
+
+        if (attemptOpt.isPresent()) {
+            return attemptOpt.get();
+        } else {
+            return null;
+        }
+
     }
 }
