@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
+import javax.xml.ws.http.HTTPException;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,7 +84,7 @@ public class MultiplicationServiceImpl implements MultiplicationService {
         if (attemptOpt.isPresent()) {
             return attemptOpt.get();
         } else {
-            return null;
+            throw new HTTPException(404);
         }
 
     }
